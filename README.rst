@@ -3,10 +3,10 @@ Housenum-be-r-parser-php
 
 A small library for merging and splitting sequences of Belgian housenumbers.
     
-.. image:: https://travis-ci.org/OnroerendErfgoed/housenum-be-r-parser-pĥp.png?branch=master
-        :target: https://travis-ci.org/OnroerendErfgoed/housenum-be-r-parser-php
-.. image:: https://coveralls.io/repos/OnroerendErfgoed/housenum-be-r-parser-php/badge.png?branch=master 
-        :target: https://coveralls.io/r/OnroerendErfgoed/housenum-be-r-parser-php?branch=master
+.. image:: https://travis-ci.org/OnroerendErfgoed/php-housenum-be-r-parser.png?branch=master
+        :target: https://travis-ci.org/OnroerendErfgoed/php-housenum-be-r-parser
+.. image:: https://coveralls.io/repos/OnroerendErfgoed/php-housenum-be-r-parser/badge.png?branch=master 
+        :target: https://coveralls.io/r/OnroerendErfgoed/php-housenum-be-r-parser?branch=master
 
 Description
 ------------
