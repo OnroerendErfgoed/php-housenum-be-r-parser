@@ -314,7 +314,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testToArrayOneElement( )
     {
         $string = '25';
-        $array = $this->facade->stringToNummers( $string );
+        $array = $this->facade->stringToNumbers( $string );
         $this->assertInternalType( 'array', $array );
         $this->assertEquals ( 1, count( $array ) );
         $this->assertEquals ( '25', (string) $array[0] );
@@ -324,7 +324,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testToArraySeveralElements( )
     {
         $string = '25,35,45';
-        $array = $this->facade->stringToNummers( $string );
+        $array = $this->facade->stringToNumbers( $string );
         $this->assertInternalType( 'array', $array );
         $this->assertEquals ( 3, count( $array ) );
         $this->assertEquals ( (string) $array[0], '25' );
@@ -335,7 +335,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testToArrayUglyInput( )
     {
         $string = ' 25 , 35,45 ';
-        $array = $this->facade->stringToNummers( $string );
+        $array = $this->facade->stringToNumbers( $string );
         $this->assertInternalType( 'array', $array );
         $this->assertEquals ( 3, count( $array ) );
         $this->assertEquals ( (string) $array[0], '25' );
@@ -346,7 +346,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testToStringOneElement( )
     {
         $array = array( '25' );
-        $string = $this->facade->nummersToString( $array );
+        $string = $this->facade->numbersToString( $array );
         $this->assertInternalType( 'string', $string );
         $this->assertEquals ( '25', $string );
     }
@@ -354,7 +354,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testToStringSeveralElements( )
     {
         $array = array( '25', '35', '45' );
-        $string = $this->facade->nummersToString( $array );
+        $string = $this->facade->numbersToString( $array );
         $this->assertInternalType( 'string', $string );
         $this->assertEquals ('25, 35, 45', $string );
     }
@@ -367,7 +367,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped( 'This test currently fails' );
         $array = array( ' 25 ', '   35', '45   ' );
-        $string = $this->facade->nummersToString( $array );
+        $string = $this->facade->numbersToString( $array );
         $this->assertInternalType( 'string', $string );
         $this->assertEquals( '25, 35, 35', $string );
     }
@@ -375,43 +375,43 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     public function testMergeEenHuisnummer( )
     {
         $label = $this->facade->merge( '25' );
-        $this->assertEquals($this->facade->nummersToString($label), '25');
+        $this->assertEquals($this->facade->numbersToString($label), '25');
     }
 
     public function testMergeHuisnummerMetBisnummerLetter( )
     {
         $label = $this->facade->merge( '25A' );
-        $this->assertEquals($this->facade->nummersToString($label), '25A' );
+        $this->assertEquals($this->facade->numbersToString($label), '25A' );
     }
 
     public function testMergeNummerMetCijferBisnummer( )
     {
         $labels = $this->facade->merge('25/1');
-        $this->assertEquals($this->facade->nummersToString($labels), '25/1' );
+        $this->assertEquals($this->facade->numbersToString($labels), '25/1' );
     }
 
     public function testMergeHuisnummerMetCijferBisnummerGescheidenDoorUnderscore( )
     {
         $labels = $this->facade->merge('111_1');
-        $this->assertEquals($this->facade->nummersToString($labels), '111/1' );
+        $this->assertEquals($this->facade->numbersToString($labels), '111/1' );
     }
 
     public function testMergeNummerMetBusnummer( )
     {
         $labels = $this->facade->merge( '25 bus 3' );
-        $this->assertEquals($this->facade->nummersToString($labels), '25 bus 3' );
+        $this->assertEquals($this->facade->numbersToString($labels), '25 bus 3' );
     }
 
     public function testMergeHuisnummerReeks( )
     {
         $labels = $this->facade->merge('25-31');
-        $this->assertEquals($this->facade->nummersToString($labels), '25-31');
+        $this->assertEquals($this->facade->numbersToString($labels), '25-31');
     }
 
     public function testMergeHuisnummerBereikEvenVerschil( )
     {
         $labels = $this->facade->merge('25, 27, 29, 31');
-        $this->assertEquals($this->facade->nummersToString($labels), '25-31');
+        $this->assertEquals($this->facade->numbersToString($labels), '25-31');
     }
 }
 ?>

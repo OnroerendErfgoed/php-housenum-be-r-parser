@@ -11,8 +11,8 @@ namespace OE\HousenumBErParser;
 use OE\HousenumBErParser\Elements\Element;
 
 /**
- * Facade 
- * 
+ * Facade
+ *
  * Deze class dient om huisnummerlabels uit te splitsen naar de indivduele labels of van
  * individuele labels terug samen te voegen naar een compactere notatie bv.:
  * <code>
@@ -32,101 +32,113 @@ class Facade {
 	 * @var OE\HuisnumBErParser\Reader
 	 */
 	private $reader;
-	
+
 	/**
 	 * @var OE\HuisnumBErParser\Sequencer
 	 */
 	private $sequencer;
-	
-	/**
+
+    /**
 	 * @var integer
 	 */
-	private $flag;
-	
+	private $error_handling;
+
 	/**
-	 * __construct
-	 * @param integer flag voor errorhandling
+     * Create a new Facade.
+     *
+	 * @param integer Set errorhandling.
 	 */
-	public function __construct($flag = 1)
+	public function __construct($error_handling = Reader::ERR_IGNORE_INVALID_INPUT)
 	{
-        $this->flag = $flag;
-		$this->reader = new Reader($flag);
+        $this->error_handling = $error_handling;
+		$this->reader = new Reader($error_handling);
 		$this->sequencer = new Sequencer();
-	}
-		
-	/**
-	 * stringToNummers
-	 * @param string met huisnummers/huisnummerreeksen
-	 * @return array met huisnummerobjecten
-	 */
-	public function stringToNummers($input)
-	{
-		return $this->reader->readString($input, $this->flag);
 	}
 
 	/**
-	 * nummersToString
-	 * @param array met huisnummerobjecten
-	 * @return string met de huisnummers
+     * Transform a string of housenumbers to an array of objects.
+     *
+	 * @param string String containing huisnummers/huisnummerreeksen
+	 * @return array Array of huisnummerobjecten
 	 */
-	public function nummersToString($inputs)
+	public function stringToNumbers($input)
+	{
+		return $this->reader->readString($input, $this->error_handling);
+	}
+
+	/**
+     * Transform an array of objects to a string of housenumbers.
+     *
+	 * @param array Array met huisnummerobjecten
+	 * @return string String met de huisnummers
+	 */
+	public function numbersToString($inputs)
 	{
 		$result = "";
-		foreach($inputs as $input) $result.=", $input";
+        foreach($inputs as $input) {
+            $result .= ", $input";
+        }
 		return substr($result, 2);
 	}
 
 	/**
-	 * sortNummers
-	 * @param array (by reference!!) met huisnummerobjecten
-	 * @return array met gesorteerde huisnummerobjecten
+     * Sort an array of housenumber objects.
+     *
+	 * @param array Array met huisnummerobjecten
+	 * @return array Array met gesorteerde huisnummerobjecten
 	 */
-	public function sortNummers(&$inputs)
+	public function sortNumbers($inputs)
 	{
 		usort( $inputs ,array("OE\HousenumBErParser\Elements\Element", "compare"));
 		return $inputs;
 	}
-	
+
 	/**
-	 * splitNummers
-	 * @param array met huisnummerobjecten
-	 * @return array met gespliste huisnummerobjecten
+     * Split housenumber objects to the smallest units possible.
+     *
+	 * @param array array met huisnummerobjecten
+	 * @return array array met gespliste huisnummerobjecten
 	 */
-	public function splitNummers($inputs)
+	public function splitNumbers($inputs)
 	{
 		$result = array();
-		foreach($inputs as $input)
-			foreach($input->split() as $el)
+        foreach($inputs as $input) {
+            foreach($input->split() as $el) {
 				$result[] = $el;
+            }
+        }
 		return $result;
 	}
 
 	/**
-	 * mergeNummers
-	 * @param array met huisnummerobjecten
-	 * @param boolean geeft weer of de lijst eerst gesorteerd moet worden.
-	 * @return array met samen gevoegde huisnummerobjecten (reeksen waar het kan)
+     * Merge housenumber object where possible.
+     *
+	 * @param array Array met huisnummerobjecten
+	 * @param boolean Should the objects be sorted before the merge or not?
+	 * @return Array with merged houdenumber objects (sequences where possible)
 	 */
-	public function mergeNummers($inputs, $sort = true)
+	public function mergeNumbers($inputs, $sort = true)
 	{
-		if($sort) {
-			$this->sortNummers($inputs);
+		if ($sort) {
+			$inputs = $this->sortNumbers($inputs);
 		}
 		return $this->sequencer->read($inputs);
 	}
-	
+
 	/**
-	 * split
-	 * @param string met huisnummers (en reeksen)
-	 * @return array met individuele huisnummerobjecten
+     * Split a string of housenumbers.
+     *
+	 * @param string String met huisnummers (en reeksen)
+	 * @return array Array met individuele huisnummerobjecten
 	 */
 	public function split($input)
 	{
-		return $this->splitNummers($this->stringToNummers($input));
+		return $this->splitNumbers($this->stringToNumbers($input));
 	}
 	
 	/**
-	 * speedySplits
+     * Split a string of housenumbers as fast as possible.
+     *
 	 * @param string inputstring met huisnummers
 	 * @return string met huisnummers, waarbij reeksen opgedeeld zijn in hun individuele nummers.
 	 */
@@ -136,8 +148,10 @@ class Facade {
 	}
 
 	/**
-	 * separateEven
-	 *
+	 * Separate even and uneven sided housenumbers.
+     *
+     * @param array Array of housenumber objects.
+     * @return array An array with two keys: even and uneven.
 	 */
 	public function separateEven($input)
 	{
@@ -150,50 +164,52 @@ class Facade {
                 $even[] = $nummer;
             }
         }
-        return array("even"=>$even, "oneven"=>$oneven);
+        return array("even"=>$even, "uneven"=>$oneven);
 	}
-	
+
 	/**
-	 * separateMerge
+     * Merge housenumbers, keeping even and uneven separated.
+     *
 	 * @param string inputstring met huisnummers
 	 * @return string met samengevoegde huisnummers tot reeksen, met even en oneven nummers gescheiden
 	 */
 	public function separateMerge($input) {
-		$reeksen = $this->stringToNummers($input);
-		$nummers = $this->splitNummers($reeksen);
+		$reeksen = $this->stringToNumbers($input);
+		$nummers = $this->splitNumbers($reeksen);
 		$separate = $this->separateEven($nummers);
-		$even = $this->mergeNummers($separate["even"]);
-		$oneven = $this->mergeNummers($separate["oneven"]);
+		$even = $this->mergeNumbers($separate["even"]);
+		$oneven = $this->mergeNumbers($separate["uneven"]);
         $ret = array_merge( $even, $oneven );
-		return $this->sortNummers($ret);
+		return $this->sortNumbers($ret);
 	}
-	
+
 	/**
-	 * straightMerge
+     * Merge housenumbers, possibly merging even and uneven sequences.
+     *
 	 * @param string inputstring met huisnummers
 	 * @return string met samengevoegde huisnummers tot reeksen
 	 */
 	public function straightMerge($input)
 	{
-		$reeksen = $this->stringToNummers($input);
-		$nummers = $this->splitNummers($reeksen);
-		return $this->mergeNummers($nummers);
+		$reeksen = $this->stringToNumbers($input);
+		$nummers = $this->splitNumbers($reeksen);
+		return $this->mergeNumbers($nummers);
 	}
-	
+
 	/**
-	 * merge
+     * Merge a string of numbers.
+     *
 	 * @param string inputstring met huisnummers
 	 * @param boolean seperate geeft aan of even en onever al dan niet gescheiden blijven.
 	 * @return string met samengevoegde huisnummers tot reeksen
 	 */
 	public function merge($input, $separate = true)
 	{
-        if($separate) { 
+        if ($separate) { 
             return $this->separateMerge($input);
         } else {
             return $this->straightMerge($input);
         }
 	}
 }
-
 ?>
