@@ -8,7 +8,8 @@ before_script:
     - curl -s http://getcomposer.org/installer | php
     - php composer.phar install
 
-script: ./vendor/bin/phpunit
+script:
+    - php vendor/bin/phpunit -c phpunit.xml.dist
 
 after_script:
     - php vendor/bin/coveralls -v
