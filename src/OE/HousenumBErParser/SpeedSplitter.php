@@ -28,99 +28,102 @@ class SpeedSplitter{
 	 * "<nummer> '-' <nummer>"
 	 * @var string 
 	 */	
-	const reeks = "#,[ ]*([\d]+)[ ]*-[ ]*([\d]+)#";
+    const reeks = "#,?[ ]*([\d]+)[ ]*-[ ]*([\d]+)#";
 	
 	/**
 	 * bisnummerreeks syntax:
 	 * " <nummer>  <'/' of '_'>  <nummer>  '-' <nummer> "
 	 * @var string  
 	 */	
-	const bisnr = "#,[ ]*(\d+)[ ]*[/|_][ ]*(\d+)[ ]*-[ ]*(\d+)#";
+	const bisnr = "#,?[ ]*(\d+)[ ]*[/|_][ ]*(\d+)[ ]*-[ ]*(\d+)#";
 	 
 	/**
 	 * bisletterreeks syntax:
 	 * " <nummer>  <'/' of '_'>  <letters>  '-' <letters> "
 	 * @var string  
 	 */	
-	const bislr = "#,[ ]*(\d+)[ ]*([a-zA-Z]+)[ ]*-[ ]*(\w+)#";
+	const bislr = "#,?[ ]*(\d+)[ ]*([a-zA-Z]+)[ ]*-[ ]*(\w+)#";
 
 	/**
 	 * busreeks syntax:
 	 * " <nummer>  'bus'  <nummer>  '-' <nummer of letter> "
 	 * @var string  
 	 */
-	const busnr = "#,[ ]*(\d+)[ ]*[bus][ ]*(\w+)[ ]*-[ ]*(\w+)#";
-
+	const busnr = "#,?[ ]*(\d+)[ ]*[bus][ ]*(\w+)[ ]*-[ ]*(\w+)#";
 
 	/**
 	 * splitHuisnummers
 	 * @param array met begin huisnummer en einde huisnummer
 	 * @return string met de gesplitste huisnummerreeks
 	 */
-	static function splitHuisnummers($match)
-	{
+	private static function splitHuisnummers(array $matches)
+    {
 		$res = "";
-		$jump = (((int)$match[1] - (int)$match[2])%2 ==0)? 2 : 1;
-		for($i = (int)$match[1]; $i<= (int)$match[2]; $i+=$jump) {
+		$jump = (((int)$matches[1] - (int)$matches[2])%2 ==0)? 2 : 1;
+		for($i = (int)$matches[1]; $i<= (int)$matches[2]; $i+=$jump) {
 			$res .= ", ".$i;
 		}
 		return $res;
-	}
+    }
+
 	/**
 	 * splitBisnummer
 	 * @param array met huisnummer, begin bisnummer en einde bisnummer
 	 * @return string met de gesplitste reeks
 	 */
-	static function splitBisnummer($match)
-	{
+	private static function splitBisnummer(array $matches)
+    {
 		$res = "";
-		for($i = $match[2]; $i<= $match[3]; $i++) {
-			$res .= ", ".$match[1]."/".$i;
+		for($i = $matches[2]; $i<= $matches[3]; $i++) {
+			$res .= ", ".$matches[1]."/".$i;
 		}
 		return $res;
 
-	}
+    }
+
 	/**
 	 * splitBisnummer
 	 * @param array met huisnummer, begin busnummer en einde busnummer
 	 * @return string met de gesplitste reeks
 	 */
-	static function splitBusnummer($match)
+	private static function splitBusnummer(array $matches)
 	{
 		$res = "";
-		for($i = $match[2]; $i<= $match[3]; $i++) {
-			$res .= ", ".$match[1]." bus ".$i;
+		for($i = $matches[2]; $i<= $matches[3]; $i++) {
+			$res .= ", ".$matches[1]." bus ".$i;
 		}
 		return $res;
 
-	}
+    }
+
 	/**
 	 * splitBisletter
 	 * @param array met huisnummer, begin bisletter en einde bisletter
 	 * @return string met de gesplitste reeks
 	 */
-	static function splitBisLetter($match)
+	private static function splitBisLetter(array $matches)
 	{
 		$res = "";
-		for($i = $match[2]; $i<= $match[3]; $i++) {
-			$res .= ", ".$match[1].$i;
+		for($i = $matches[2]; $i<= $matches[3]; $i++) {
+			$res .= ", ".$matches[1].$i;
 		}
 		return $res;
 
-	}
+    }
+
 	/**
-	 * split
-	 * @param string inputstring met huisnummer(s)
-	 * @return string met uitgewerkte huisnummerreeksen
+     * split
+     *
+	 * @param string inputstring met huisnummer(s) en reeksen
+	 * @return array Array met gesplitste huisnummers
 	 */
-	static function split($input) 
-	{
-		$pos = 0;
-		$input = preg_replace_callback(self::busnr, array("SpeedSplitter", "splitBusnummer"), $input);
-		$input = preg_replace_callback(self::bisnr, array("SpeedSplitter", "splitBisnummer"), $input);
-		$input = preg_replace_callback(self::bislr, array("SpeedSplitter", "splitBisLetter"), $input);
-		$input = preg_replace_callback(self::reeks, array("SpeedSplitter", "splitHuisnummers"), $input);
-		return explode(", ", $input);
+	public static function split($input) 
+    {
+		$input = preg_replace_callback(self::busnr, 'self::splitBusnummer', $input);
+		$input = preg_replace_callback(self::bisnr, 'self::splitBisnummer', $input);
+        $input = preg_replace_callback(self::bislr, 'self::splitBisLetter', $input);
+        $input = preg_replace_callback(self::reeks, 'self::splitHuisnummers', $input);
+		return explode(", ", trim($input,','));
 	}
 }
 ?>

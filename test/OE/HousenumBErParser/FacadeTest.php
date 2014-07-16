@@ -413,5 +413,29 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $labels = $this->facade->merge('25, 27, 29, 31');
         $this->assertEquals($this->facade->numbersToString($labels), '25-31');
     }
+
+    public function testMergeSeparate()
+    {
+        $this->assertEquals(
+            $this->facade->merge('25, 27, 29, 31'),
+            $this->facade->separateMerge('25, 27, 29, 31')
+        );
+    }
+
+    public function testStraightMerge()
+    {
+        $this->assertEquals(
+            $this->facade->merge('25, 27, 29, 31', false),
+            $this->facade->straightMerge('25, 27, 29, 31')
+        );
+    }
+
+    public function testSplitEqualsSpeedySplit()
+    {
+        $this->assertEquals(
+            $this->facade->split('25-31'),
+            $this->facade->speedySplit('25-31')
+        );
+    }
 }
 ?>
