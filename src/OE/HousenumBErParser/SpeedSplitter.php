@@ -22,34 +22,40 @@ class SpeedSplitter{
 	 * (\w+) staat voor een woord: aantal letters of cijfers.
 	 */
 
+	/**
+	 * bisnummer syntax:
+	 * " <nummer>  <'/' of '_'>  <nummer> "
+	 * @var string  
+	 */	
+	const BISNR = "#,[ ]*(\d+)[ ]*[/|_][ ]*(\d+)#";
 
 	/**
 	 * huisnummerreeks syntax:
 	 * "<nummer> '-' <nummer>"
 	 * @var string 
 	 */	
-    const reeks = "#,?[ ]*([\d]+)[ ]*-[ ]*([\d]+)#";
+    const HNR_REEKS = "#,[ ]*([\d]+)[ ]*-[ ]*([\d]+)#";
 	
 	/**
 	 * bisnummerreeks syntax:
 	 * " <nummer>  <'/' of '_'>  <nummer>  '-' <nummer> "
 	 * @var string  
 	 */	
-	const bisnr = "#,?[ ]*(\d+)[ ]*[/|_][ ]*(\d+)[ ]*-[ ]*(\d+)#";
+	const BISNR_REEKS = "#,[ ]*(\d+)[ ]*[/|_][ ]*(\d+)[ ]*-[ ]*(\d+)#";
 	 
 	/**
 	 * bisletterreeks syntax:
-	 * " <nummer>  <'/' of '_'>  <letters>  '-' <letters> "
+	 * " <nummer>  <letters>  '-' <letters> "
 	 * @var string  
 	 */	
-	const bislr = "#,?[ ]*(\d+)[ ]*([a-zA-Z]+)[ ]*-[ ]*(\w+)#";
+	const BISLR_REEKS = "#,[ ]*(\d+)[ ]*([a-zA-Z]+)[ ]*-[ ]*(\w+)#";
 
 	/**
 	 * busreeks syntax:
-	 * " <nummer>  'bus'  <nummer>  '-' <nummer of letter> "
+	 * " <nummer>  'bus'  <nummer of letter>  '-' <nummer of letter> "
 	 * @var string  
 	 */
-	const busnr = "#,?[ ]*(\d+)[ ]*[bus][ ]*(\w+)[ ]*-[ ]*(\w+)#";
+	const BUSNR_REEKS = "#,[ ]*(\d+)[ ]*bus[ ]*(\w+)[ ]*-[ ]*(\w+)#";
 
 	/**
 	 * splitHuisnummers
@@ -119,11 +125,15 @@ class SpeedSplitter{
 	 */
 	public static function split($input) 
     {
-		$input = preg_replace_callback(self::busnr, 'self::splitBusnummer', $input);
-		$input = preg_replace_callback(self::bisnr, 'self::splitBisnummer', $input);
-        $input = preg_replace_callback(self::bislr, 'self::splitBisLetter', $input);
-        $input = preg_replace_callback(self::reeks, 'self::splitHuisnummers', $input);
-		return explode(", ", trim($input,','));
+        if ($input{0} != ',' ) {
+            $input = ',' . $input;
+        }
+		$input = preg_replace_callback(self::BUSNR_REEKS, 'self::splitBusnummer', $input);
+		$input = preg_replace_callback(self::BISNR_REEKS, 'self::splitBisnummer', $input);
+        $input = preg_replace_callback(self::BISLR_REEKS, 'self::splitBisLetter', $input);
+        $input = preg_replace_callback(self::HNR_REEKS, 'self::splitHuisnummers', $input);
+        $input = preg_replace(self::BISNR, ', $1/$2', $input);
+		return array_map('trim', explode(",", trim($input,',')));
 	}
 }
 ?>
