@@ -40,11 +40,6 @@ class Sequencer{
 	 */	
 	private $result;
 
-	public function __construct(){
-
-	}
-	
-	
 	/**
 	 * readSpringReeks
 	 *  Leest een reeks van huisnummers, die telkens een nummer overslaan.
@@ -157,24 +152,34 @@ class Sequencer{
 	 *  Leest een reeks van huisnummers, ongeacht hun type, uit de input array.
 	 * @return ReeksElement de volledige reeks
 	 */	
-	public function readReeks(){
+	private function readReeks(){
 		switch($this->current()) {
-			case "OE\HousenumBErParser\Elements\Huisnummer": return $this->readHuisnummerReeks($this->content());
-			case "OE\HousenumBErParser\Elements\Bisnummer": return $this->readBisnummerReeks($this->content());
-			case "OE\HousenumBErParser\Elements\Busnummer": return $this->readBusnummerReeks($this->content());
-			case "OE\HousenumBErParser\Elements\Busletter": return $this->readBusletterReeks($this->content());
-			case "OE\HousenumBErParser\Elements\Bisletter": return $this->readBisletterReeks($this->content());
-			case "OE\HousenumBErParser\Elements\ReadException": return $this->skip();
-			case "": return null;
-			default: throw new \InvalidArgumentException("Invalid type: ".$this->current()." is of type: '".$this->current()."'");
+            case "OE\HousenumBErParser\Elements\Huisnummer":
+                return $this->readHuisnummerReeks($this->content());
+            case "OE\HousenumBErParser\Elements\Bisnummer":
+                return $this->readBisnummerReeks($this->content());
+            case "OE\HousenumBErParser\Elements\Busnummer":
+                return $this->readBusnummerReeks($this->content());
+            case "OE\HousenumBErParser\Elements\Busletter":
+                return $this->readBusletterReeks($this->content());
+            case "OE\HousenumBErParser\Elements\Bisletter":
+                return $this->readBisletterReeks($this->content());
+            case "OE\HousenumBErParser\Elements\ReadException":
+                return $this->skip();
+            case "":
+                return null;
+            default: 
+                throw new \InvalidArgumentException("Invalid type: ".$this->current().".");
 		}
 	}
 	/**
-	 * read
-	 *  Leest een array van te verzamelen elementen in.
-	 * @param array de input array
-	 * @return KVDUtil_HnrReeksElement de volledige reeks
-	 */	
+     * Read Housenumber objets
+     *
+     * Reads an array of Housenumber elements.
+     *
+	 * @param array Array of Housenumber Elements.
+	 * @return OE\HousenumBErParser\Elements\ReeksElement
+	 */
 	public function read($in){
 		$this->input = $in;
 		$this->pos = 0;
@@ -184,33 +189,40 @@ class Sequencer{
 			$this->store($r);
 		}
 		return $this->result;
-	}
+    }
+
 	/**
 	 * next
 	 *  geeft het volgende element in de input array terug
 	 * @return KVDUtil_HnrElement
-	 */		
+	 */
 	 private function next(){
 		$this->pos++;
 		return $this->current();
-	}
+     }
+
 	/**
 	 * current
-	 *  geeft het huidige element in de input array terug
+	 *  geeft het type van het huidige element in de input array terug
 	 * @return KVDUtil_HnrElement
-	 */			
+	 */
 	private function current(){
-		if ($this->pos >= sizeof($this->input)) return "";
-		else return get_class($this->input[$this->pos]);
-	}
+        if ($this->pos >= sizeof($this->input)) {
+            return "";
+        } else {
+            return get_class($this->input[$this->pos]);
+        }
+    }
+
 	/**
 	 * current
 	 *  geeft de inhoud van huidige element in de input array terug
 	 * @return string
-	 */		
+	 */
 	private function content(){
 		return $this->input[$this->pos];
-	}
+    }
+
 	/**
 	 * store
 	 *  slaat het gevormde reeks element op.
