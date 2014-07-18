@@ -31,7 +31,7 @@ class BisnummerReeks extends ReeksElement{
 	 * @return string de string representatie van de reeks
 	 */ 
 	public function __toString(){
-		return $this->getHuisnummer()."/".$this->getBegin()."-".$this->getEinde();
+		return $this->getHousenumber()."/".$this->getBegin()."-".$this->getEinde();
 	}
 
 	/**
@@ -41,7 +41,7 @@ class BisnummerReeks extends ReeksElement{
 	public function split(){
 		$r = array();
 		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
-			$r[] = new Bisnummer($this->getHuisnummer(), $i);
+			$r[] = new Bisnummer($this->getHousenumber(), $i);
 		}
 		return $r;
 	}

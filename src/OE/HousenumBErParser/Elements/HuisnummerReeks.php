@@ -93,7 +93,7 @@ class HuisnummerReeks extends ReeksElement{
 		$r = array();
 		$jump = ($this->isSpringReeks()) ? 2 : 1;
 		for($i = $this->getBegin(); $i<= $this->getEinde(); $i += $jump){
-			$r[] = new Huisnummer($i);
+			$r[] = new Housenumber($i);
 		}
 		return $r;
 	}

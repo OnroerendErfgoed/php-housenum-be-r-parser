@@ -47,7 +47,7 @@ class Sequencer{
 	 * @return KVDUtil_HnrHuisnummerReeks de volledige reeks
 	 */	
 	private function readSpringReeks($reeks){
-		while(($this->next() == "OE\HousenumBErParser\Elements\Huisnummer")&&($this->content()->getHuisnummer() == ($reeks->getEinde() +2)))
+		while(($this->next() == "OE\HousenumBErParser\Elements\Housenumber")&&($this->content()->getHousenumber() == ($reeks->getEinde() +2)))
             $reeks->setEinde($reeks->getEinde() +2);
 		return $reeks;
 	}
@@ -58,7 +58,7 @@ class Sequencer{
 	 * @return KVDUtil_HnrHuisnummerReeks de volledige reeks
 	 */	
     private function readVolgReeks($reeks){
-		while(($this->next() == "OE\HousenumBErParser\Elements\Huisnummer")&&($this->content()->getHuisnummer() == ($reeks->getEinde() +1)))
+		while(($this->next() == "OE\HousenumBErParser\Elements\Housenumber")&&($this->content()->getHousenumber() == ($reeks->getEinde() +1)))
             $reeks->setEinde($reeks->getEinde() +1);
 		return $reeks;
 	}
@@ -69,9 +69,9 @@ class Sequencer{
 	 * @return KVDUtil_HnrHuisnummerReeks de volledige reeks
 	 */
     private function readHuisnummerReeks($huisnummer){
-		$reeks = new HuisnummerReeks($huisnummer->getHuisnummer(),$huisnummer->getHuisnummer());
-		if($this->next() != "OE\HousenumBErParser\Elements\Huisnummer") return $huisnummer;
-        $nummer = $this->content()->getHuisnummer();
+		$reeks = new HuisnummerReeks($huisnummer->getHousenumber(),$huisnummer->getHousenumber());
+		if($this->next() != "OE\HousenumBErParser\Elements\Housenumber") return $huisnummer;
+        $nummer = $this->content()->getHousenumber();
         if($nummer == ($reeks->getEinde()+1)) {
 			$reeks->setSprong(false);
 			$reeks->setEinde($nummer);
@@ -91,7 +91,7 @@ class Sequencer{
 	 * @return KVDUtil_HnrBisnummerReeks de volledige reeks
 	 */
 	private function readBisnummerReeks($bisnummer){
-		$reeks = new BisnummerReeks($bisnummer->getHuisnummer(), $bisnummer->getBisnummer(), $bisnummer->getBisnummer());
+		$reeks = new BisnummerReeks($bisnummer->getHousenumber(), $bisnummer->getBisnummer(), $bisnummer->getBisnummer());
 		while(($this->next() == "OE\HousenumBErParser\Elements\Bisnummer")&&($this->content()->getBisnummer() == ($reeks->getEinde() +1)))
 			$reeks->setEinde($reeks->getEinde() +1);
 		if($reeks->getBegin() == $reeks->getEinde()) return $bisnummer;
@@ -105,7 +105,7 @@ class Sequencer{
 	 * @return KVDUtil_HnrBusnummerReeks de volledige reeks
 	 */
 	private function readBusnummerReeks($busnummer){;
-		$reeks = new BusnummerReeks($busnummer->getHuisnummer(), $busnummer->getBusnummer(), $busnummer->getBusnummer());
+		$reeks = new BusnummerReeks($busnummer->getHousenumber(), $busnummer->getBusnummer(), $busnummer->getBusnummer());
 		while(($this->next() == "OE\HousenumBErParser\Elements\Busnummer")&&($this->content()->getBusnummer() == ($reeks->getEinde() +1)))
 			$reeks->setEinde($reeks->getEinde() +1);
 		if($reeks->getBegin() == $reeks->getEinde()) return $busnummer;
@@ -119,7 +119,7 @@ class Sequencer{
 	 * @return KVDUtil_HnrBusletterReeks de volledige reeks
 	 */
 	private function readBusletterReeks($busletter){;
-		$reeks = new BusletterReeks($busletter->getHuisnummer(), $busletter->getBusletter(), $busletter->getBusletter());
+		$reeks = new BusletterReeks($busletter->getHousenumber(), $busletter->getBusletter(), $busletter->getBusletter());
 		$einde = $reeks->getEinde();
 		while(($this->next() == "OE\HousenumBErParser\Elements\Busletter")&&($this->content()->getBusletter() == ++$einde))
 			$reeks->setEinde($einde);
@@ -136,7 +136,7 @@ class Sequencer{
 	 * @return KVDUtil_HnrBisletterReeks de volledige reeks
 	 */
 	private function readBisletterReeks($bisletter){
-		$reeks = new BisletterReeks($bisletter->getHuisnummer(), $bisletter->getBisletter(), $bisletter->getBisletter());
+		$reeks = new BisletterReeks($bisletter->getHousenumber(), $bisletter->getBisletter(), $bisletter->getBisletter());
 		$einde = $reeks->getEinde();
 		while(($this->next() == "OE\HousenumBErParser\Elements\Bisletter")&&($this->content()->getBisletter() == (++$einde)))
 			$reeks->setEinde($einde);
@@ -156,7 +156,7 @@ class Sequencer{
 	 */	
     private function readReeks(){
         switch($this->current()) {
-            case "OE\HousenumBErParser\Elements\Huisnummer":
+            case "OE\HousenumBErParser\Elements\Housenumber":
                 return $this->readHuisnummerReeks($this->content());
             case "OE\HousenumBErParser\Elements\Bisnummer":
                 return $this->readBisnummerReeks($this->content());

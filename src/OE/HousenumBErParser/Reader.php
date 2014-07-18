@@ -8,7 +8,7 @@
 
 namespace OE\HousenumBErParser;
 
-use OE\HousenumBErParser\Elements\Huisnummer;
+use OE\HousenumBErParser\Elements\Housenumber;
 use OE\HousenumBErParser\Elements\Bisletter;
 use OE\HousenumBErParser\Elements\Busletter;
 use OE\HousenumBErParser\Elements\Bisnummer;
@@ -124,19 +124,27 @@ class Reader{
 	 */	
 	static function readNummer($input)
 	{
-		if(preg_match(self::huis, $input, $matches)) { return new Huisnummer($matches[1]); } 
-		elseif(preg_match(self::busn, $input, $matches)) { return new Busnummer($matches[1], $matches[2]); } 
-		elseif(preg_match(self::busl, $input, $matches)) {	return new Busletter($matches[1], $matches[2]); }
-		elseif(preg_match(self::bisn, $input, $matches)) {
-			return new Bisnummer($matches[1], $matches[2]); }
-		elseif(preg_match(self::bisl, $input, $matches)) {	return new Bisletter($matches[1], $matches[2]); }
-		elseif(preg_match(self::huis_r, $input, $matches)){ 
-			return new HuisnummerReeks($matches[1], $matches[2], (((int)$matches[1] - (int)$matches[2])%2 ==0));}
-		elseif(preg_match(self::busn_r, $input, $matches)){ return new BusnummerReeks($matches[1], $matches[2], $matches[3]);}
-		elseif(preg_match(self::busl_r, $input, $matches)){ return new BusletterReeks($matches[1], $matches[2], $matches[3]);}
-		elseif(preg_match(self::bisn_r, $input, $matches)){ return new BisnummerReeks($matches[1], $matches[2], $matches[3]);}
-		elseif(preg_match(self::bisl_r, $input, $matches)){	return new BisletterReeks($matches[1], $matches[2], $matches[3]);}
-		else return new ReadException("Could not parse/understand", $input);
+        if(preg_match(self::huis, $input, $matches)) {
+            return new Housenumber($matches[1]);
+        } elseif(preg_match(self::busn, $input, $matches)) {
+            return new Busnummer($matches[1], $matches[2]);
+        } elseif(preg_match(self::busl, $input, $matches)) {
+            return new Busletter($matches[1], $matches[2]);
+        } elseif(preg_match(self::bisn, $input, $matches)) {
+            return new Bisnummer($matches[1], $matches[2]);
+        } elseif(preg_match(self::bisl, $input, $matches)) {
+            return new Bisletter($matches[1], $matches[2]);
+        } elseif(preg_match(self::huis_r, $input, $matches)){
+            return new HuisnummerReeks($matches[1], $matches[2], (((int)$matches[1] - (int)$matches[2])%2 ==0));
+        } elseif(preg_match(self::busn_r, $input, $matches)){
+            return new BusnummerReeks($matches[1], $matches[2], $matches[3]);
+        } elseif(preg_match(self::busl_r, $input, $matches)){
+            return new BusletterReeks($matches[1], $matches[2], $matches[3]);
+        } elseif(preg_match(self::bisn_r, $input, $matches)){
+            return new BisnummerReeks($matches[1], $matches[2], $matches[3]);
+        } elseif(preg_match(self::bisl_r, $input, $matches)){
+            return new BisletterReeks($matches[1], $matches[2], $matches[3]);
+        } else return new ReadException("Could not parse/understand", $input);
 	}
 		
 	/**

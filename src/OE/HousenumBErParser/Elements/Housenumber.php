@@ -13,22 +13,14 @@ namespace OE\HousenumBErParser\Elements;
  *
  * Een eenvoudig huisnummer, bijv: 13 of 15.
  */
-class Huisnummer extends EnkelElement {
-
-	/**
-	 * __construct
-	 * @param integer het huisnummer
-	 */
-	public function __construct($nummer){
-		parent::__construct($nummer);
-    }
+class Housenumber extends SingleElement {
 
 	/**
 	 * __toString
 	 * @return string representatie van het huisnummer, bijv "3" of "21"
 	 */
 	public function __toString(){
-		return "".$this->getHuisnummer();
+		return (string) $this->getHousenumber();
 	}
 }
 ?>

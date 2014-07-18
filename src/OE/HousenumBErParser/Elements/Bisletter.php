@@ -29,7 +29,7 @@ class Bisletter extends Biselement{
 	 * @return string representatie van het nummer
 	 */
 	public function __toString(){
-		return $this->getHuisnummer().$this->getBiselement();
+		return $this->getHousenumber().$this->getBiselement();
 	}
 	/**
 	 * getBisletter

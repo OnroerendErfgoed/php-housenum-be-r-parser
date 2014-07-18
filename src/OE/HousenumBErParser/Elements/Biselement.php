@@ -13,10 +13,10 @@ namespace OE\HousenumBErParser\Elements;
  *
  * Eeen enkel huisnummer met biselement, bijv "3/1" of "21 bus C"
  */
-abstract class Biselement extends EnkelElement{
+abstract class Biselement extends SingleElement{
 
 	protected $bisIndex;
-	
+
 	public function getBiselement() {
 		return $this->getData($this->bisIndex);
 	}

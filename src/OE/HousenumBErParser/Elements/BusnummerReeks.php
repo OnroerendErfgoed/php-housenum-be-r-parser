@@ -33,7 +33,7 @@ class BusnummerReeks extends ReeksElement{
 	 * @return Een string representatie van de busnummer reeks, bijv: 13 bus 1-3.
 	 */
 	public function __toString(){
-		return $this->getHuisnummer()." bus ".$this->getBegin()."-".$this->getEinde();
+		return $this->getHousenumber()." bus ".$this->getBegin()."-".$this->getEinde();
 	}	
 
 	/**
@@ -43,7 +43,7 @@ class BusnummerReeks extends ReeksElement{
 	public function split(){
 		$r = array();
 		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
-			$r[] = new Busnummer($this->getHuisnummer(), $i);
+			$r[] = new Busnummer($this->getHousenumber(), $i);
 		}
 		return $r;
 	}

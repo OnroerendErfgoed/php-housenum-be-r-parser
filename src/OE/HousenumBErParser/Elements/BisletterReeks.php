@@ -32,7 +32,7 @@ class BisletterReeks extends ReeksElement{
 	 * @return Een string representatie van de bisletter reeks, bijv: 13A-C.
 	 */
 	public function __toString(){
-		return $this->getHuisnummer().$this->getBegin()."-".$this->getEinde();
+		return $this->getHousenumber().$this->getBegin()."-".$this->getEinde();
 	}	
 	
 	
@@ -43,7 +43,7 @@ class BisletterReeks extends ReeksElement{
 	public function split(){
 		$r = array();
 		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
-			$r[] = new Bisletter($this->getHuisnummer(), $i);
+			$r[] = new Bisletter($this->getHousenumber(), $i);
 		}
 		return $r;
 	}

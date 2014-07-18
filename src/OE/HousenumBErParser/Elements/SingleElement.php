@@ -9,11 +9,13 @@
 namespace OE\HousenumBErParser\Elements;
 
 /**
- * Een enkel element.
+ * A single element (ie. not a sequence).
  *
- * Een abstracte superklasse voor een huisnummer.
+ * An abstract class for any type of single element. This can be a simple
+ * housenumber, or a housenumber with a bis number, ...
+ *
  */
-abstract class EnkelElement extends Element{
+abstract class SingleElement extends Element{
 
 	public function isException()
 	{
@@ -29,15 +31,15 @@ abstract class EnkelElement extends Element{
 	 * 
 	 * @return integer het huisnummer van dit element
 	 */
-	public function getHuisnummer(){
-		return $this->getData(Element::HUISNR);
+	public function getHousenumber(){
+		return $this->getData(Element::HNR);
 	}
 	/**
 	 * setHuisnummer
 	 * @param integer het nieuwe huisnummer van dit element
 	 */
-	public function setHuisnummer($nummer){
-		$this->setData(Element::HUISNR , $nummer);
+	public function setHousenumber($nummer){
+		$this->setData(Element::HNR , $nummer);
 	}
 }
 ?>

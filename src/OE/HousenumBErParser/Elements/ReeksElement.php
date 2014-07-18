@@ -13,7 +13,7 @@ namespace OE\HousenumBErParser\Elements;
  *
  * Abstracte klasse voor alle reeksen (compacte notatie van een reeks) huisnummers
  */
-abstract class ReeksElement extends EnkelElement{
+abstract class ReeksElement extends SingleElement{
 
 	/**
 	 * @var integer

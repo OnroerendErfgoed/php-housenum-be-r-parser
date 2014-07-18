@@ -21,7 +21,7 @@ abstract class Element{
 	 */
     private $data;
 
-	const HUISNR = 0;
+	const HNR = 0;
 	const BISN = 1;
 	const BISL = 2;
 	const BUSN = 3;

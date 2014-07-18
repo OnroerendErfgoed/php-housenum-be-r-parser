@@ -27,7 +27,7 @@ class Busnummer extends Biselement{
 	 * @return string representatie van het nummer
 	 */
 	public function __toString(){
-		return $this->getHuisnummer()." bus ".$this->getBiselement();
+		return $this->getHousenumber()." bus ".$this->getBiselement();
 	}
 	/**
 	 * getBusnummer
