@@ -274,6 +274,16 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($huisnummers[3], '47-49');
     }
 
+    public function testMergeBusdingesReeksen()
+    {
+        $label = '25, 27, 38 bus A, 38 bus B, 17/1, 17/3';
+        $huisnummers = $this->facade->merge( $label );
+        $this->assertEquals(
+            array( '17/1', '17/3', '25-27', '38 bus A-B' ),
+            $huisnummers
+        );
+    }
+
     public function testMergeCombinatieHuisnummerBereiken( )
     {
         $label = '25-31,18-26';
@@ -283,6 +293,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals ((string)  $huisnummers[0], '18-26' );
         $this->assertEquals ((string)  $huisnummers[1], '25-31' );
     }
+
 
     /*
     public function testPerformantie()
@@ -402,6 +413,12 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->facade->numbersToString($labels), '25 bus 3' );
     }
 
+    public function testMergeNummerMetBusletter( )
+    {
+        $labels = $this->facade->merge( '25 bus C' );
+        $this->assertEquals($this->facade->numbersToString($labels), '25 bus C' );
+    }
+
     public function testMergeHuisnummerReeks( )
     {
         $labels = $this->facade->merge('25-31');
@@ -412,6 +429,30 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
     {
         $labels = $this->facade->merge('25, 27, 29, 31');
         $this->assertEquals($this->facade->numbersToString($labels), '25-31');
+    }
+
+    public function testMergeHuisnummerBereikOnevenVerschil()
+    {
+        $labels = $this->facade->merge('24, 25, 26, 27, 28');
+        $this->assertEquals('24-28, 25-27', $this->facade->numbersToString($labels));
+    }
+
+    public function testMergeHuisnummerBereikEvenVerschilStraight( )
+    {
+        $labels = $this->facade->merge('25, 27, 29, 31', false);
+        $this->assertEquals($this->facade->numbersToString($labels), '25-31');
+    }
+
+    public function testMergeHuisnummerBereikOnevenVerschilStraight()
+    {
+        $labels = $this->facade->merge('24, 25, 26, 27', false);
+        $this->assertEquals('24-27', $this->facade->numbersToString($labels));
+    }
+
+    public function testMergeHuisnummerBereikLongJump( )
+    {
+        $labels = $this->facade->merge('25, 47, 49, 51');
+        $this->assertEquals($this->facade->numbersToString($labels), '25, 47-51');
     }
 
     public function testMergeSeparate()
@@ -435,6 +476,14 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->facade->split('25-31'),
             $this->facade->speedySplit('25-31')
+        );
+    }
+
+    public function testMergeRommel()
+    {
+        $this->assertEquals(
+            'A, 25, , 31',
+            $this->facade->numbersToString($this->facade->merge( 'A, 25, , 31' ))
         );
     }
 }

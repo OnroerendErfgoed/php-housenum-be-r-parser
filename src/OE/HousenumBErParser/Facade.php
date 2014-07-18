@@ -87,11 +87,11 @@ class Facade {
 	 * @param array Array met huisnummerobjecten
 	 * @return array Array met gesorteerde huisnummerobjecten
 	 */
-	public function sortNumbers($inputs)
-	{
-		usort( $inputs ,array("OE\HousenumBErParser\Elements\Element", "compare"));
-		return $inputs;
-	}
+    public function sortNumbers($inputs)
+    {
+        usort( $inputs ,array("OE\HousenumBErParser\Elements\Element", "compare"));
+        return $inputs;
+    }
 
 	/**
      * Split housenumber objects to the smallest units possible.
@@ -205,7 +205,7 @@ class Facade {
 	 */
 	public function merge($input, $separate = true)
 	{
-        if ($separate) { 
+        if ($separate) {
             return $this->separateMerge($input);
         } else {
             return $this->straightMerge($input);
