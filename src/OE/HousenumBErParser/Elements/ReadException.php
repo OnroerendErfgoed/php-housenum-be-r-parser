@@ -9,7 +9,7 @@
 namespace OE\HousenumBErParser\Elements;
 
 /**
- * Een leesfout in de huisnummerlezer.
+ * A reading error in the Reader.
  */
 class ReadException extends Element{
 
@@ -22,7 +22,7 @@ class ReadException extends Element{
 	 * @var string
 	 */
 	private $input;
-	
+
 	public function __construct($error, $input = "")
 	{
 		parent::__construct(-1);
@@ -30,19 +30,21 @@ class ReadException extends Element{
         // Remove extra spaces.
 		$this->input = trim($input);
 	}
-	
+
 	public function isException()
 	{
 		return true;
 	}
-	
-	public function setData($i,$val) {}
+
+    public function setData($i,$val)
+    {
+    }
 
 	public function split()
 	{
 		return array($this);
 	}
-	
+
 	/**
 	 * getMessage
 	 * @return string error message
@@ -50,7 +52,8 @@ class ReadException extends Element{
 	public function getMessage()
 	{
 		return $this->error.": '".$this->input."'";
-	}
+    }
+
 	/**
 	 * __toString
 	 * string represrntatie van de input
