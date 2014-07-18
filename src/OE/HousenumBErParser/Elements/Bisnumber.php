@@ -9,31 +9,33 @@
 namespace OE\HousenumBErParser\Elements;
 
 /**
- * Een huisnummer met een busnummer.
+ * Een huisnummer met een bisnummer.
  *
- * Een enkel huisnummer met busnummer, bijv "3 bus 1" of "53 bus 5"
+ * Een enkel huisnummer met bisnummer, bijv "3/1" of "21/5"
  */
-class Busnummer extends Biselement{
+class Bisnumber extends Biselement{
+
 	/**
 	 * __construct
 	 * @param integer huisnummer
-	 * @param integer busnummer
+	 * @param integer bisnummer
 	 */
-	public function __construct($huis, $bus){
-		parent::__construct($huis,-1, -1, $bus);
-		$this->bisIndex = 3;
+	public function __construct($huis, $bis){
+		parent::__construct($huis,$bis);
+		$this->bisIndex = 1;
 	}
 	/**
+	 * __toString
 	 * @return string representatie van het nummer
 	 */
 	public function __toString(){
-		return $this->getHousenumber()." bus ".$this->getBiselement();
+		return $this->getHousenumber()."/".$this->getBiselement();
 	}
 	/**
-	 * getBusnummer
+	 * getBisnummer
 	 * @return integer
 	 */
-	public function getBusnummer(){
+	public function getBisnumber(){
 		return $this->getBiselement();
 	}
 

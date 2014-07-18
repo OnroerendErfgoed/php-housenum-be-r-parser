@@ -91,8 +91,12 @@ class Sequencer{
 	 * @return KVDUtil_HnrBisnummerReeks de volledige reeks
 	 */
 	private function readBisnummerReeks($bisnummer){
-		$reeks = new BisnummerReeks($bisnummer->getHousenumber(), $bisnummer->getBisnummer(), $bisnummer->getBisnummer());
-		while(($this->next() == "OE\HousenumBErParser\Elements\Bisnummer")&&($this->content()->getBisnummer() == ($reeks->getEinde() +1)))
+        $reeks = new BisnummerReeks(
+            $bisnummer->getHousenumber(),
+            $bisnummer->getBisnumber(),
+            $bisnummer->getBisnumber()
+        );
+		while(($this->next() == "OE\HousenumBErParser\Elements\Bisnumber")&&($this->content()->getBisnumber() == ($reeks->getEinde() +1)))
 			$reeks->setEinde($reeks->getEinde() +1);
 		if($reeks->getBegin() == $reeks->getEinde()) return $bisnummer;
 		else return $reeks;
@@ -105,11 +109,18 @@ class Sequencer{
 	 * @return KVDUtil_HnrBusnummerReeks de volledige reeks
 	 */
 	private function readBusnummerReeks($busnummer){;
-		$reeks = new BusnummerReeks($busnummer->getHousenumber(), $busnummer->getBusnummer(), $busnummer->getBusnummer());
-		while(($this->next() == "OE\HousenumBErParser\Elements\Busnummer")&&($this->content()->getBusnummer() == ($reeks->getEinde() +1)))
+        $reeks = new BusnummerReeks(
+            $busnummer->getHousenumber(),
+            $busnummer->getBusnumber(),
+            $busnummer->getBusnumber()
+        );
+		while(($this->next() == "OE\HousenumBErParser\Elements\Busnumber")&&($this->content()->getBusnumber() == ($reeks->getEinde() +1)))
 			$reeks->setEinde($reeks->getEinde() +1);
-		if($reeks->getBegin() == $reeks->getEinde()) return $busnummer;
-		else return $reeks;
+        if($reeks->getBegin() == $reeks->getEinde()) {
+            return $busnummer;
+        } else {
+            return $reeks;
+        }
 	}
 
 	/**
@@ -158,9 +169,9 @@ class Sequencer{
         switch($this->current()) {
             case "OE\HousenumBErParser\Elements\Housenumber":
                 return $this->readHuisnummerReeks($this->content());
-            case "OE\HousenumBErParser\Elements\Bisnummer":
+            case "OE\HousenumBErParser\Elements\Bisnumber":
                 return $this->readBisnummerReeks($this->content());
-            case "OE\HousenumBErParser\Elements\Busnummer":
+            case "OE\HousenumBErParser\Elements\Busnumber":
                 return $this->readBusnummerReeks($this->content());
             case "OE\HousenumBErParser\Elements\Busletter":
                 return $this->readBusletterReeks($this->content());

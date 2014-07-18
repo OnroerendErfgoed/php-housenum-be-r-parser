@@ -41,7 +41,7 @@ class BisnummerReeks extends ReeksElement{
 	public function split(){
 		$r = array();
 		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
-			$r[] = new Bisnummer($this->getHousenumber(), $i);
+			$r[] = new Bisnumber($this->getHousenumber(), $i);
 		}
 		return $r;
 	}

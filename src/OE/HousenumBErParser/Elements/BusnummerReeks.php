@@ -43,7 +43,7 @@ class BusnummerReeks extends ReeksElement{
 	public function split(){
 		$r = array();
 		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
-			$r[] = new Busnummer($this->getHousenumber(), $i);
+			$r[] = new Busnumber($this->getHousenumber(), $i);
 		}
 		return $r;
 	}

@@ -11,8 +11,8 @@ namespace OE\HousenumBErParser;
 use OE\HousenumBErParser\Elements\Housenumber;
 use OE\HousenumBErParser\Elements\Bisletter;
 use OE\HousenumBErParser\Elements\Busletter;
-use OE\HousenumBErParser\Elements\Bisnummer;
-use OE\HousenumBErParser\Elements\Busnummer;
+use OE\HousenumBErParser\Elements\Bisnumber;
+use OE\HousenumBErParser\Elements\Busnumber;
 
 use OE\HousenumBErParser\Elements\HuisnummerReeks;
 use OE\HousenumBErParser\Elements\BisletterReeks;
@@ -127,11 +127,11 @@ class Reader{
         if(preg_match(self::huis, $input, $matches)) {
             return new Housenumber($matches[1]);
         } elseif(preg_match(self::busn, $input, $matches)) {
-            return new Busnummer($matches[1], $matches[2]);
+            return new Busnumber($matches[1], $matches[2]);
         } elseif(preg_match(self::busl, $input, $matches)) {
             return new Busletter($matches[1], $matches[2]);
         } elseif(preg_match(self::bisn, $input, $matches)) {
-            return new Bisnummer($matches[1], $matches[2]);
+            return new Bisnumber($matches[1], $matches[2]);
         } elseif(preg_match(self::bisl, $input, $matches)) {
             return new Bisletter($matches[1], $matches[2]);
         } elseif(preg_match(self::huis_r, $input, $matches)){
