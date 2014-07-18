@@ -26,8 +26,9 @@ class ReadException extends Element{
 	public function __construct($error, $input = "")
 	{
 		parent::__construct(-1);
-		$this->error = $error;
-		$this->input = $input;
+        $this->error = $error;
+        // Remove extra spaces.
+		$this->input = trim($input);
 	}
 	
 	public function isException()

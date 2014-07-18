@@ -157,7 +157,6 @@ class Sequencer{
     private function readReeks(){
         switch($this->current()) {
             case "OE\HousenumBErParser\Elements\Huisnummer":
-
                 return $this->readHuisnummerReeks($this->content());
             case "OE\HousenumBErParser\Elements\Bisnummer":
                 return $this->readBisnummerReeks($this->content());

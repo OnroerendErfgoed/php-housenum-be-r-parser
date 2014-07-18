@@ -239,7 +239,7 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $huisnummers = $this->facade->split( $label );
         $this->assertInternalType('array', $huisnummers);
         $this->assertEquals(count($huisnummers), 4);
-        $this->assertEquals($huisnummers[0], ' A ');
+        $this->assertEquals($huisnummers[0], 'A');
         $this->assertEquals($huisnummers[1], '1/3');
         $this->assertEquals($huisnummers[2], '5');
         $this->assertEquals($huisnummers[3], '7');
@@ -370,17 +370,12 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals ('25, 35, 45', $string );
     }
 
-    /**
-     * Deze test faalt momenteel.
-     * Zou eigenlijk wel moeten werken?
-     */
     public function testToStringUglyInput( )
     {
-        $this->markTestSkipped( 'This test currently fails' );
         $array = array( ' 25 ', '   35', '45   ' );
         $string = $this->facade->numbersToString( $array );
         $this->assertInternalType( 'string', $string );
-        $this->assertEquals( '25, 35, 35', $string );
+        $this->assertEquals( '25, 35, 45', $string );
     }
 
     public function testMergeEenHuisnummer( )
@@ -479,10 +474,10 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testMergeRommel()
+    public function testMergeCrap()
     {
         $this->assertEquals(
-            'A, 25, , 31',
+            'A, , 25, 31',
             $this->facade->numbersToString($this->facade->merge( 'A, 25, , 31' ))
         );
     }

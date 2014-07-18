@@ -72,11 +72,11 @@ class Facade {
 	 * @param array Array met huisnummerobjecten
 	 * @return string String met de huisnummers
 	 */
-	public function numbersToString($inputs)
+	public function numbersToString(array $inputs)
 	{
 		$result = "";
         foreach($inputs as $input) {
-            $result .= ", $input";
+            $result .= ", " . trim($input);
         }
 		return substr($result, 2);
 	}
