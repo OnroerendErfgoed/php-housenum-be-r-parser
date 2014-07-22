@@ -16,7 +16,7 @@ namespace OE\HousenumBErParser\Elements;
  *  bijv "33, 34, 35, 36" -> "33-36"
  *  bijv "32, 33, 34, 35, 36"-> "32, 33-36"
  */
-class HuisnummerReeks extends ReeksElement{
+class HousenumberSequence extends SequenceElement{
 	/**
 	 * @var boolean geeft weer of de huisnummers in deze reeks elke opvolgen
 	 *  bijvoorbeeld:  35-38
@@ -32,11 +32,11 @@ class HuisnummerReeks extends ReeksElement{
 	 */
 	public function __construct($begin, $einde, $spring = true){
 		parent::__construct($begin,-1, -1,-1,-1,$einde);
-		$this->beginIndex = 0;
-		$this->eindeIndex = 5;
+		$this->startIndex = 0;
+		$this->endIndex = 5;
 		$this->spring = $spring;
-		
-	}
+    }
+
 	/**
 	 * __toString
 	 * Geeft een string representatie van de reeks weer.
@@ -46,10 +46,10 @@ class HuisnummerReeks extends ReeksElement{
 	 * @return string representatie van deze reeks
 	 */
 	public function __toString(){
-		$diff = ($this->getEinde() - $this->getBegin());
+		$diff = ($this->getEnd() - $this->getStart());
 		if (($diff%2 == 0) && (!$this->spring))
-			return $this->getBegin().", ".($this->getBegin()+1)."-".$this->getEinde();
-		return $this->getBegin().'-'.$this->getEinde();
+			return $this->getStart().", ".($this->getStart()+1)."-".$this->getEnd();
+		return $this->getStart().'-'.$this->getEnd();
 	}
 	
 	/**
@@ -64,7 +64,8 @@ class HuisnummerReeks extends ReeksElement{
 
 	public function isVolgReeks(){
 		return !($this->spring);
-	}
+    }
+
 	/**
 	 * isSpringReeks
 	 * Geeft weer of de nummers in deze reeks elkaar opvolgend of telkens een
@@ -92,7 +93,7 @@ class HuisnummerReeks extends ReeksElement{
 	public function split(){
 		$r = array();
 		$jump = ($this->isSpringReeks()) ? 2 : 1;
-		for($i = $this->getBegin(); $i<= $this->getEinde(); $i += $jump){
+		for($i = $this->getStart(); $i<= $this->getEnd(); $i += $jump){
 			$r[] = new Housenumber($i);
 		}
 		return $r;

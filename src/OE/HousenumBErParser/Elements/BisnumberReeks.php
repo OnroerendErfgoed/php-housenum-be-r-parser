@@ -14,7 +14,7 @@ namespace OE\HousenumBErParser\Elements;
  * Een reeks van bisnummers.
  *  bijv "33/1, 32/2, 33/3" -> "33/1-3"
  */
-class BisnummerReeks extends ReeksElement{
+class BisnumberSequence extends SequenceElement{
 
 	/**
 	 * @param integer huis het huisnummer
@@ -23,15 +23,15 @@ class BisnummerReeks extends ReeksElement{
 	 */
 	public function __construct($huis, $begin, $einde){
 		parent::__construct($huis, $begin,-1, -1,-1, $huis, $einde);
-		$this->beginIndex = 1;
-		$this->eindeIndex = 6;
+		$this->startIndex = 1;
+		$this->endIndex = 6;
 	}
 	/**
 	 * __toString
 	 * @return string de string representatie van de reeks
 	 */ 
 	public function __toString(){
-		return $this->getHousenumber()."/".$this->getBegin()."-".$this->getEinde();
+		return $this->getHousenumber()."/".$this->getStart()."-".$this->getEnd();
 	}
 
 	/**
@@ -40,7 +40,7 @@ class BisnummerReeks extends ReeksElement{
 	 */
 	public function split(){
 		$r = array();
-		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
+		for($i = $this->getStart(); $i<= $this->getEnd(); $i++){
 			$r[] = new Bisnumber($this->getHousenumber(), $i);
 		}
 		return $r;

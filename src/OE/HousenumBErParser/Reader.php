@@ -14,11 +14,11 @@ use OE\HousenumBErParser\Elements\Busletter;
 use OE\HousenumBErParser\Elements\Bisnumber;
 use OE\HousenumBErParser\Elements\Busnumber;
 
-use OE\HousenumBErParser\Elements\HuisnummerReeks;
-use OE\HousenumBErParser\Elements\BisletterReeks;
-use OE\HousenumBErParser\Elements\BusletterReeks;
-use OE\HousenumBErParser\Elements\BisnummerReeks;
-use OE\HousenumBErParser\Elements\BusnummerReeks;
+use OE\HousenumBErParser\Elements\HousenumberSequence;
+use OE\HousenumBErParser\Elements\BisletterSequence;
+use OE\HousenumBErParser\Elements\BusletterSequence;
+use OE\HousenumBErParser\Elements\BisnumberSequence;
+use OE\HousenumBErParser\Elements\BusnumberSequence;
 
 use OE\HousenumBErParser\Elements\ReadException;
 
@@ -135,15 +135,15 @@ class Reader{
         } elseif(preg_match(self::bisl, $input, $matches)) {
             return new Bisletter($matches[1], $matches[2]);
         } elseif(preg_match(self::huis_r, $input, $matches)){
-            return new HuisnummerReeks($matches[1], $matches[2], (((int)$matches[1] - (int)$matches[2])%2 ==0));
+            return new HousenumberSequence($matches[1], $matches[2], (((int)$matches[1] - (int)$matches[2])%2 ==0));
         } elseif(preg_match(self::busn_r, $input, $matches)){
-            return new BusnummerReeks($matches[1], $matches[2], $matches[3]);
+            return new BusnumberSequence($matches[1], $matches[2], $matches[3]);
         } elseif(preg_match(self::busl_r, $input, $matches)){
-            return new BusletterReeks($matches[1], $matches[2], $matches[3]);
+            return new BusletterSequence($matches[1], $matches[2], $matches[3]);
         } elseif(preg_match(self::bisn_r, $input, $matches)){
-            return new BisnummerReeks($matches[1], $matches[2], $matches[3]);
+            return new BisnumberSequence($matches[1], $matches[2], $matches[3]);
         } elseif(preg_match(self::bisl_r, $input, $matches)){
-            return new BisletterReeks($matches[1], $matches[2], $matches[3]);
+            return new BisletterSequence($matches[1], $matches[2], $matches[3]);
         } else return new ReadException("Could not parse/understand", $input);
 	}
 		

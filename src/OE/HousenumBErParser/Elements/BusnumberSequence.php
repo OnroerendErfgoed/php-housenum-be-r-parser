@@ -9,12 +9,12 @@
 namespace OE\HousenumBErParser\Elements;
 
 /**
- * Een reeks van bisletters.
+ * Een reeks van busnummers.
  *
- * Een reeks van bisletters.
- *  bijv "33A, 32B, 33C" -> "33A-C"
+ * Een reeks van busnummers.
+ *  bijv "33 bus 1, 32 bus 2, 33 bus 3" -> "33 bus 1-3"
  */
-class BisletterReeks extends ReeksElement{
+class BusnumberSequence extends SequenceElement{
 
 	/**
 	 * __construct
@@ -23,27 +23,27 @@ class BisletterReeks extends ReeksElement{
 	 * @param integer het laatste nummer van de reeks
 	 */	
 	public function __construct($huis, $begin, $einde){
-		parent::__construct($huis,-1, $begin,-1,-1,$huis,-1, $einde);
-		$this->beginIndex = 2;
-		$this->eindeIndex = 7;
+		parent::__construct($huis,-1, -1, $begin,-1, $huis,-1, -1, $einde);
+		$this->startIndex = 3;
+		$this->endIndex = 8;
 	}
+	
 	/**
 	 * __toString
-	 * @return Een string representatie van de bisletter reeks, bijv: 13A-C.
+	 * @return Een string representatie van de busnummer reeks, bijv: 13 bus 1-3.
 	 */
 	public function __toString(){
-		return $this->getHousenumber().$this->getBegin()."-".$this->getEinde();
+		return $this->getHousenumber()." bus ".$this->getStart()."-".$this->getEnd();
 	}	
-	
-	
+
 	/**
 	 * split
 	 * @return array een array met de individuele bisnummers van deze reeks
 	 */	
 	public function split(){
 		$r = array();
-		for($i = $this->getBegin(); $i<= $this->getEinde(); $i++){
-			$r[] = new Bisletter($this->getHousenumber(), $i);
+		for($i = $this->getStart(); $i<= $this->getEnd(); $i++){
+			$r[] = new Busnumber($this->getHousenumber(), $i);
 		}
 		return $r;
 	}
