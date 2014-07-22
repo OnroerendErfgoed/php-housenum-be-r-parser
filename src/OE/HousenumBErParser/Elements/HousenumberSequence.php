@@ -53,32 +53,20 @@ class HousenumberSequence extends SequenceElement{
 	}
 	
 	/**
-	 * isVolgReeks
+     * Is this a consecutive sequence or not?
+     *
 	 * Geeft weer of de nummers in deze reeks elkaar opvolgend of telkens een
 	 *  nummer overslaan
 	 *  bijv "33, 35, 37" -> false
 	 *  bijv "33, 34, 35, 36" -> true
-	 *  bijv "32, 33, 34, 35, 36"-> true
+     *  bijv "32, 33, 34, 35, 36"-> true
+     *
 	 * @return boolean of de nummers elkaar opvolgen
 	 */
-
-	public function isVolgReeks(){
+	public function isConsecutive(){
 		return !($this->spring);
     }
 
-	/**
-	 * isSpringReeks
-	 * Geeft weer of de nummers in deze reeks elkaar opvolgend of telkens een
-	 *  nummer overslaan
-	 *  bijv "33, 35, 37" -> true
-	 *  bijv "33, 34, 35, 36" -> false
-	 *  bijv "32, 33, 34, 35, 36"-> false
-	 * @return boolean of de nummers in de rij telkens 1 nummer overslaan
-	 */	
-	public function isSpringReeks(){
-		return ($this->spring);
-	}
-	
 	/**
 	 * setSprong
 	 * @param boolean of de rij telkens een nummer overslaat (true) of niet (false).
@@ -92,7 +80,7 @@ class HousenumberSequence extends SequenceElement{
 	 */
 	public function split(){
 		$r = array();
-		$jump = ($this->isSpringReeks()) ? 2 : 1;
+		$jump = (!$this->isConsecutive()) ? 2 : 1;
 		for($i = $this->getStart(); $i<= $this->getEnd(); $i += $jump){
 			$r[] = new Housenumber($i);
 		}
