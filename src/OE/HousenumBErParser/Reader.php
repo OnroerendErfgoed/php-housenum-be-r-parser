@@ -163,10 +163,10 @@ class Reader{
 	static function handleException($exception, &$results = array(), $flag = 1)
 	{
 		switch($flag) {
-			case (self::ERR_EXCEPTIONS): throw new Exception($exception->getMessage()); break;
+			case (self::ERR_EXCEPTIONS): throw new \InvalidArgumentException($exception->getMessage()); break;
 			case (self::ERR_IGNORE_INVALID_INPUT): $results[] = $exception; return $results; break;
 			case (self::ERR_REMOVE_INVALID_INPUT): return $results; break;
-			default: throw new Exception("Invalid flag for KVDutil_HnrReader. Given ".$flag);
+			default: throw new \InvalidArgumentException("Invalid Errorhandling flag. Given ".$flag);
 		}
 	}
 	/**

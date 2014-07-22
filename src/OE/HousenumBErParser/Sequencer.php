@@ -179,10 +179,8 @@ class Sequencer{
                 return $this->readBisletterReeks($this->content());
             case "OE\HousenumBErParser\Elements\ReadException":
                 return $this->skip();
-            case "":
-                return null;
-            default: 
-                throw new \InvalidArgumentException("Invalid type: ".$this->current().".");
+            default:
+                throw new \InvalidArgumentException("Unable to handle Element.");
 		}
 	}
 	/**
@@ -221,7 +219,7 @@ class Sequencer{
 	 */
 	private function current(){
         if ($this->pos >= sizeof($this->input)) {
-            return "";
+            return '';
         } else {
             return get_class($this->input[$this->pos]);
         }

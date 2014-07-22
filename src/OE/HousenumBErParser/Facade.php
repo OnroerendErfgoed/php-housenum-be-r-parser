@@ -117,7 +117,7 @@ class Facade {
 	 * @param boolean Should the objects be sorted before the merge or not?
 	 * @return Array with merged houdenumber objects (sequences where possible)
 	 */
-	public function mergeNumbers($inputs, $sort = true)
+	public function mergeNumbers(array $inputs, $sort = true)
 	{
 		if ($sort) {
 			$inputs = $this->sortNumbers($inputs);

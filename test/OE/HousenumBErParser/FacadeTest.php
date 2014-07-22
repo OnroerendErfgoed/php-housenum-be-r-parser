@@ -481,5 +481,14 @@ class FacadeTest extends \PHPUnit_Framework_TestCase
             $this->facade->numbersToString($this->facade->merge( 'A, 25, , 31' ))
         );
     }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testMergeUnexistingElements()
+    {
+        $this->facade->mergeNumbers(array(new \stdClass()));
+    }
+
 }
 ?>

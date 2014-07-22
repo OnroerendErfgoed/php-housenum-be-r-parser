@@ -59,16 +59,6 @@ abstract class Element{
 	}
 
 	/**
-	 * getDatas
-	 *  geeft de data array van dit huisnummer
-	 * @return array
-	 */
-	public function getDatas()
-	{
-		return $this->data;
-	}
-
-	/**
 	 * getData
 	 *  geeft informatie van dit huisnummer
 	 * @param integer op te vragen gegeven
