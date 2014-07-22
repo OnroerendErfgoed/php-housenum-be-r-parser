@@ -8,7 +8,7 @@ A small library for merging and splitting sequences of Belgian housenumbers.
 .. image:: https://coveralls.io/repos/OnroerendErfgoed/php-housenum-be-r-parser/badge.png?branch=master 
         :target: https://coveralls.io/r/OnroerendErfgoed/php-housenum-be-r-parser?branch=master
 .. image:: https://poser.pugx.org/oe/housenum-be-r-parser/v/stable.svg
-        :target https://packagist.org/packages/oe/php-housenum-be-r-parser
+        :target: https://packagist.org/packages/oe/php-housenum-be-r-parser
 
 Description
 -----------
