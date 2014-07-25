@@ -13,8 +13,9 @@ use OE\HousenumBErParser\Elements\Element;
 /**
  * Facade
  *
- * Deze class dient om huisnummerlabels uit te splitsen naar de indivduele labels of van
- * individuele labels terug samen te voegen naar een compactere notatie bv.:
+ * This class provides methods for splitting strings representing a series of   
+ * housenumbers into individual labels for each number and methods for creating 
+ * a more compact notation givin a series of individual labels. e.g.:        
  * <code>
  *  $facade = new Facade( );
  *  $huisnummers = $facade->split( '15-21' );
